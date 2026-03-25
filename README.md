@@ -1,54 +1,44 @@
-# QuikHire
-A simple platform that connects students with short-term freelance gigs quickly and without unnecessary complexity.
+# Tennis App
+A simple web app that helps tennis players find tournaments, connect with players, and view rankings.
 
 ## Target User
-Students and young freelancers who are looking for quick, short-term jobs (e.g., tutoring, design, delivery, coding help) and don’t want to deal with complicated job platforms.
+This app is made for beginner to intermediate tennis players who want to:
+- Find tournaments easily
+- Connect with other players to practice
+- See rankings and match results
+
+Many players struggle to find partners or local tournaments in one place, so this app helps organize everything in a simple way.
 
 ## Features
 
 ### Must Have
-- Post a JOB:  Make able to Users to create a job listing with title, description, and budget
-- Browse Jobs: Users can view a list of available gigs in a simple feed
-- Apply to Job: Users can express interest or apply to a job
+- View tournaments: Users can see a list of tennis tournaments with details like date, location, and level.
+- Find players: Users can browse player profiles and connect with other players.
+- View rankings and results: Users can see rankings and recent match results.
 
 ### Should Have
-- User Accounts: Sign up/login to manage posted jobs and applications
-- Job Filtering: Filter jobs by category (e.g., remote, local, design, coding)
+- Filters: Users can filter tournaments and players by level, surface, or city.
+- Profile page: Users can view and edit their own profile information.
 
 ### Could Have
-- Messaging System: Users can chat after applying to a job
+- Notifications: Users could receive messages or updates about tournaments or connections.
 
 ## Data Model
---User
-id
-name
-email
-password
-createdJobs (list of Job IDs)
-appliedJobs (list of Job IDs)
---Job
-id
-title
-description
-budget
-category
-location (remote or city)
-createdBy (User ID)
-applicants (list of User IDs)
-createdAt
 
-Example:
-- **Recipe**: title, ingredients (list), steps (list), prep time, category
-- **User**: name, email, saved recipes (list)
+- **Tournament**: name, date, location, level, surface, spots available  
+- **Player**: name, age, city, level, playing hand  
+- **Coach**: name, city, price, experience, certification  
+- **Match Result**: tournament name, round, players, score  
+- **User Profile**: name, city, level, preferences  
 
 ## Tech Stack
-- Next.js 14 (App Router)
-- TypeScript
-- Tailwind CSS
-- Deployed on Vercel
+- HTML
+- CSS (basic styling / Tailwind if used)
+- JavaScript (simple logic)
 
 ## Design
-[Figma link will go here]
+Figma link will go here
 
 ## Live Demo
-[Vercel URL will go here]
+Vercel or GitHub Pages link will go here
+
