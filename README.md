@@ -37,7 +37,7 @@ Many players struggle to find partners or local tournaments in one place, so thi
 - JavaScript (simple logic)
 
 ## Design
-Figma link will go here
+https://www.figma.com/design/hmVtF6QIEtmapxngFtzyNT/tennisconnect-design?node-id=0-1&p=f&t=nwSphdhspxlrFQwG-0
 
 ## Live Demo
 Vercel or GitHub Pages link will go here
