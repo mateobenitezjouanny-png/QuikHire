@@ -1,4 +1,4 @@
-# Tennis App
+# Tennis Connect
 A simple web app that helps tennis players find tournaments, connect with players, and view rankings.
 
 ## Target User
