@@ -1,44 +1,36 @@
-# Tennis Connect
-A simple web app that helps tennis players find tournaments, connect with players, and view rankings.
+# TennisConnect
 
-## Target User
-This app is made for beginner to intermediate tennis players who want to:
-- Find tournaments easily
-- Connect with other players to practice
-- See rankings and match results
+A tennis community web app built for my Web Development class (first year).
 
-Many players struggle to find partners or local tournaments in one place, so this app helps organize everything in a simple way.
+## What it does
+- Browse and register for tournaments
+- Find hitting partners by level and city
+- Find coaches
+- View player rankings
+- See recent match results
+- Edit your profile
 
-## Features
+## How to deploy on Vercel
 
-### Must Have
-- View tournaments: Users can see a list of tennis tournaments with details like date, location, and level.
-- Find players: Users can browse player profiles and connect with other players.
-- View rankings and results: Users can see rankings and recent match results.
+### Option 1 - Drag and drop (easiest)
+1. Go to [vercel.com](https://vercel.com) and create a free account
+2. Click **"Add New Project"**
+3. Drag and drop this entire folder onto the page
+4. Click **Deploy**
+5. Done! You get a free link like `tennisconnect-abc123.vercel.app`
 
-### Should Have
-- Filters: Users can filter tournaments and players by level, surface, or city.
-- Profile page: Users can view and edit their own profile information.
+### Option 2 - GitHub (recommended)
+1. Create a free account on [github.com](https://github.com)
+2. Create a new repository and upload all files
+3. Go to [vercel.com](https://vercel.com) and log in with GitHub
+4. Click **"Add New Project"** and import your GitHub repo
+5. Click **Deploy**
 
-### Could Have
-- Notifications: Users could receive messages or updates about tournaments or connections.
+## Files
+- `index.html` — the whole app (HTML + CSS + JavaScript in one file)
+- `vercel.json` — tells Vercel how to serve the app
+- `README.md` — this file
 
-## Data Model
-
-- **Tournament**: name, date, location, level, surface, spots available  
-- **Player**: name, age, city, level, playing hand  
-- **Coach**: name, city, price, experience, certification  
-- **Match Result**: tournament name, round, players, score  
-- **User Profile**: name, city, level, preferences  
-
-## Tech Stack
-- HTML
-- CSS (basic styling / Tailwind if used)
-- JavaScript (simple logic)
-
-## Design
-https://www.figma.com/design/piR3UmCshl2NeKvgQPxh8t/Tennis-Connect?node-id=0-1&p=f&t=oYMppmfjjmP3ad8a-0
-
-## Live Demo
-Vercel or GitHub Pages link will go here
-
+## Tech used
+- HTML, CSS, JavaScript (vanilla, no frameworks)
+- Google Fonts (Syne + DM Sans)

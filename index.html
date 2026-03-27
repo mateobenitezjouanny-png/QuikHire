@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TennisConnect</title>
+  <!-- i used google fonts for this, i think it looks cool -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+
+    /* css variables i learned about in week 3 */
+    :root {
+      --green-dark: #0d3d1f;
+      --green-mid: #1a5c32;
+      --green-main: #2d7a47;
+      --green-lime: #9dff5b;
+      --green-light: #e8f5ed;
+      --white: #ffffff;
+      --off-white: #f7f8f6;
+      --gray-100: #f0f1ef;
+      --gray-200: #e2e4e0;
+      --gray-500: #8a8f87;
+      --gray-700: #3d4039;
+      --black: #111210;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--off-white);
+      color: var(--black);
+    }
+
+    /* ---- NAVBAR ---- */
+    .topnav {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0 24px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 99;
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 17px;
+      color: var(--green-dark);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    /* little green dot next to logo */
+    .nav-logo .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green-lime);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links button {
+      background: none;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-700);
+      cursor: pointer;
+    }
+
+    .nav-links button:hover {
+      background: var(--gray-100);
+    }
+
+    .nav-links button.active {
+      background: var(--green-dark);
+      color: white;
+    }
+
+    /* this one is the green cta button */
+    .nav-links .cta-btn {
+      background: var(--green-lime);
+      color: var(--green-dark);
+      font-weight: 700;
+    }
+
+    .nav-links .cta-btn:hover {
+      opacity: 0.9;
+    }
+
+    /* ---- PAGES ---- */
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* ---- HOME PAGE ---- */
+    .hero {
+      background: var(--green-dark);
+      padding: 52px 36px 44px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* glow effect in corner i copied from a tutorial */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(157,255,91,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(157,255,91,0.12);
+      border: 1px solid rgba(157,255,91,0.28);
+      color: var(--green-lime);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 11px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+      letter-spacing: 0.04em;
+    }
+
+    .live-badge .blink {
+      width: 6px;
+      height: 6px;
+      background: var(--green-lime);
+      border-radius: 50%;
+      animation: blink 1.4s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 44px;
+      color: white;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+
+    .hero h1 em {
+      color: var(--green-lime);
+      font-style: italic;
+    }
+
+    .hero p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.65);
+      max-width: 500px;
+      line-height: 1.65;
+      margin-bottom: 26px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-lime {
+      background: var(--green-lime);
+      color: var(--green-dark);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .btn-lime:hover {
+      opacity: 0.88;
+    }
+
+    .btn-ghost-white {
+      background: transparent;
+      color: rgba(255,255,255,0.8);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      padding: 10px 20px;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .btn-ghost-white:hover {
+      border-color: rgba(255,255,255,0.45);
+    }
+
+    /* feature cards grid on home */
+    .feature-section {
+      padding: 32px 36px;
+    }
+
+    .feature-section h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 19px;
+      color: var(--black);
+      margin-bottom: 18px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 13px;
+    }
+
+    .feature-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+
+    .feature-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+      transform: translateY(-2px);
+    }
+
+    /* icon box inside feature card */
+    .ficon {
+      width: 38px;
+      height: 38px;
+      background: var(--green-light);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 13px;
+    }
+
+    .ficon svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--green-main);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .feature-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: var(--black);
+    }
+
+    .feature-card p {
+      font-size: 12px;
+      color: var(--gray-500);
+      line-height: 1.5;
+    }
+
+    /* top seeds on home page */
+    .seeds-section {
+      padding: 0 36px 36px;
+    }
+
+    .section-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .section-row h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+    }
+
+    .see-all {
+      font-size: 13px;
+      color: var(--green-main);
+      font-weight: 500;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .seeds-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    /* ---- INNER PAGES ---- */
+    .inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 28px;
+    }
+
+    .page-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      color: var(--black);
+      margin-bottom: 4px;
+    }
+
+    .page-sub {
+      font-size: 13px;
+      color: var(--gray-500);
+      margin-bottom: 22px;
+    }
+
+    /* filter row with pill dropdowns */
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 13px;
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-700);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .filter-pill select {
+      border: none;
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--gray-700);
+      font-weight: 500;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .filter-pill input {
+      border: none;
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--gray-700);
+      outline: none;
+      width: 110px;
+    }
+
+    .filter-pill input::placeholder {
+      color: var(--gray-500);
+    }
+
+    /* list cards (tournaments, players, coaches) */
+    .item-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 17px 20px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .item-card:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+
+    .item-body {
+      flex: 1;
+    }
+
+    .item-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--black);
+      margin-bottom: 5px;
+    }
+
+    .item-meta {
+      font-size: 12px;
+      color: var(--gray-500);
+      margin: 2px 0;
+    }
+
+    .item-note {
+      font-size: 12px;
+      color: var(--gray-500);
+      font-style: italic;
+      margin-top: 4px;
+    }
+
+    .tag-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 9px;
+    }
+
+    /* tags / badges */
+    .tag {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .tag-green  { background: var(--green-light); color: var(--green-main); }
+    .tag-dark   { background: var(--green-dark); color: white; }
+    .tag-lime   { background: var(--green-lime); color: var(--green-dark); }
+    .tag-orange { background: #fff4e6; color: #b35c00; }
+    .tag-blue   { background: #e8f0fe; color: #1a56b0; }
+    .tag-gray   { background: var(--gray-100); color: var(--gray-700); }
+
+    .item-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    /* avatar circle with initials */
+    .avatar {
+      width: 40px;
+      height: 40px;
+      background: var(--green-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    /* action buttons on cards */
+    .btn-dark {
+      background: var(--green-dark);
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 15px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-dark:hover {
+      background: var(--green-mid);
+    }
+
+    .btn-green {
+      background: var(--green-lime);
+      color: var(--green-dark);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 15px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-green:hover {
+      opacity: 0.85;
+    }
+
+    /* ---- RANKINGS TABLE ---- */
+    .rank-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--gray-200);
+    }
+
+    .rank-table th {
+      background: var(--green-dark);
+      color: rgba(255,255,255,0.75);
+      padding: 11px 15px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .rank-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 13px;
+      color: var(--gray-700);
+    }
+
+    .rank-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .rank-table tr:hover td {
+      background: var(--gray-100);
+    }
+
+    .rank-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--green-main);
+    }
+
+    .rank-top-3 {
+      color: var(--green-lime);
+    }
+
+    .rank-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    /* ---- RESULTS ---- */
+    .results-block {
+      margin-bottom: 28px;
+    }
+
+    .results-block h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--black);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .match-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 15px 18px;
+      margin-bottom: 8px;
+    }
+
+    .match-round-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 9px;
+    }
+
+    .match-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3px 0;
+    }
+
+    .match-player {
+      font-size: 13px;
+      color: var(--gray-700);
+    }
+
+    .match-player.won {
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .match-score {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--green-main);
+    }
+
+    .win-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--green-main);
+      margin-left: 5px;
+    }
+
+    /* ---- PROFILE ---- */
+    .profile-hero-card {
+      background: var(--green-dark);
+      border-radius: 14px;
+      padding: 26px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .profile-big-av {
+      width: 68px;
+      height: 68px;
+      background: rgba(157,255,91,0.13);
+      border: 2px solid rgba(157,255,91,0.35);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      color: var(--green-lime);
+      flex-shrink: 0;
+    }
+
+    .profile-text h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 21px;
+      color: white;
+      margin-bottom: 4px;
+    }
+
+    .profile-text p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      margin: 2px 0;
+    }
+
+    .profile-stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .stat-box {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 15px 17px;
+    }
+
+    .stat-val {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 26px;
+      color: var(--green-main);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--gray-500);
+      margin-top: 2px;
+    }
+
+    /* ---- EMPTY STATE ---- */
+    .empty {
+      text-align: center;
+      padding: 44px 20px;
+      color: var(--gray-500);
+      font-size: 13px;
+    }
+
+    /* ---- MODALS ---- */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.48);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(3px);
+    }
+
+    .overlay.show {
+      display: flex;
+    }
+
+    .modal-box {
+      background: white;
+      border-radius: 18px;
+      padding: 26px;
+      width: 370px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.18);
+    }
+
+    .modal-box h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--black);
+      margin-bottom: 3px;
+    }
+
+    .modal-sub {
+      font-size: 12px;
+      color: var(--gray-500);
+      margin-bottom: 18px;
+    }
+
+    .modal-box label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 13px;
+      margin-bottom: 4px;
+    }
+
+    .modal-box input,
+    .modal-box select,
+    .modal-box textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--black);
+      background: var(--off-white);
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .modal-box input:focus,
+    .modal-box select:focus,
+    .modal-box textarea:focus {
+      border-color: var(--green-main);
+      background: white;
+    }
+
+    .modal-box textarea {
+      height: 75px;
+      resize: vertical;
+    }
+
+    .modal-btns {
+      display: flex;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .modal-btns .btn-lime {
+      flex: 1;
+    }
+
+    .btn-cancel {
+      background: var(--gray-100);
+      color: var(--gray-700);
+      border: none;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .btn-cancel:hover {
+      background: var(--gray-200);
+    }
+
+    /* ---- TOAST ---- */
+    #toast {
+      display: none;
+      position: fixed;
+      bottom: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--green-dark);
+      color: white;
+      padding: 11px 20px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      z-index: 999;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- ======== NAVBAR ======== -->
+<nav class="topnav">
+  <div class="nav-logo">
+    <div class="dot"></div>
+    TennisConnect
+  </div>
+  <div class="nav-links">
+    <button class="active" onclick="showPage('home')">Home</button>
+    <button onclick="showPage('tournaments')">Tournaments</button>
+    <button onclick="showPage('players')">Find Players</button>
+    <button onclick="showPage('coaches')">Coaches</button>
+    <button onclick="showPage('rankings')">Rankings</button>
+    <button onclick="showPage('results')">Results</button>
+    <button onclick="showPage('profile')">My Profile</button>
+    <button class="cta-btn" onclick="showPage('profile')">Get Started</button>
+  </div>
+</nav>
+
+
+<!-- ======== HOME PAGE ======== -->
+<div class="page active" id="home">
+
+  <div class="hero">
+    <div class="live-badge"><span class="blink"></span> TennisConnect is live</div>
+    <h1>Welcome to<br><em>TennisConnect</em></h1>
+    <p>Find tournaments, hitting partners, coaches, and tennis opportunities all in one place.</p>
+    <div class="hero-buttons">
+      <button class="btn-lime" onclick="showPage('tournaments')">Explore Now &rarr;</button>
+      <button class="btn-ghost-white" onclick="showPage('profile')">Create Profile</button>
+    </div>
+  </div>
+
+  <div class="feature-section">
+    <h2>Everything you need for your tennis journey</h2>
+    <div class="feature-grid">
+
+      <div class="feature-card" onclick="showPage('tournaments')">
+        <div class="ficon">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+        </div>
+        <h3>Tournaments</h3>
+        <p>Join local and regional tournaments across all skill levels.</p>
+      </div>
+
+      <div class="feature-card" onclick="showPage('players')">
+        <div class="ficon">
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>
+        </div>
+        <h3>Find Players</h3>
+        <p>Connect with hitting partners near you at your level.</p>
+      </div>
+
+      <div class="feature-card" onclick="showPage('coaches')">
+        <div class="ficon">
+          <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <h3>Coaches</h3>
+        <p>Browse certified coaches for private lessons.</p>
+      </div>
+
+      <div class="feature-card" onclick="showPage('rankings')">
+        <div class="ficon">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <h3>Rankings</h3>
+        <p>National, regional and junior player standings.</p>
+      </div>
+
+      <div class="feature-card" onclick="showPage('results')">
+        <div class="ficon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>Results</h3>
+        <p>Latest match results from recent tournaments.</p>
+      </div>
+
+      <div class="feature-card" onclick="showPage('profile')">
+        <div class="ficon">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <h3>My Profile</h3>
+        <p>Set up your profile to get found by players and coaches.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- top seeds preview on home page -->
+  <div class="seeds-section">
+    <div class="section-row">
+      <h2>Top Seed Prospects</h2>
+      <button class="see-all" onclick="showPage('rankings')">View All</button>
+    </div>
+    <div class="seeds-grid" id="homeSeeds"></div>
+  </div>
+
+</div><!-- end home -->
+
+
+<!-- ======== TOURNAMENTS ======== -->
+<div class="page" id="tournaments">
+  <div class="inner">
+    <div class="page-title">Tournaments</div>
+    <div class="page-sub">Find and register for upcoming competitions.</div>
+
+    <div class="filters">
+      <span class="filter-pill">
+        Level &nbsp;
+        <select id="tLevel" onchange="renderTournaments()">
+          <option value="">All</option>
+          <option value="Beginner">Beginner</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="Advanced">Advanced</option>
+          <option value="Open">Open</option>
+        </select>
+      </span>
+      <span class="filter-pill">
+        Surface &nbsp;
+        <select id="tSurface" onchange="renderTournaments()">
+          <option value="">All Courts</option>
+          <option value="Clay">Clay</option>
+          <option value="Hard">Hard</option>
+          <option value="Grass">Grass</option>
+        </select>
+      </span>
+    </div>
+
+    <div id="tournamentList"></div>
+  </div>
+</div>
+
+
+<!-- ======== PLAYERS ======== -->
+<div class="page" id="players">
+  <div class="inner">
+    <div class="page-title">Find Players</div>
+    <div class="page-sub">Connect with hitting partners who match your level.</div>
+
+    <div class="filters">
+      <span class="filter-pill">
+        Level &nbsp;
+        <select id="pLevel" onchange="renderPlayers()">
+          <option value="">All</option>
+          <option value="Beginner">Beginner</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="Advanced">Advanced</option>
+        </select>
+      </span>
+      <span class="filter-pill">
+        <input type="text" id="pCity" placeholder="Search city..." oninput="renderPlayers()"/>
+      </span>
+    </div>
+
+    <div id="playerList"></div>
+  </div>
+</div>
+
+
+<!-- ======== COACHES ======== -->
+<div class="page" id="coaches">
+  <div class="inner">
+    <div class="page-title">Coaches</div>
+    <div class="page-sub">Browse coaches available for lessons near you.</div>
+
+    <div class="filters">
+      <span class="filter-pill">
+        Specialty &nbsp;
+        <select id="cSpec" onchange="renderCoaches()">
+          <option value="">All</option>
+          <option value="Beginners">Beginners</option>
+          <option value="Kids">Kids</option>
+          <option value="Adults">Adults</option>
+          <option value="Competition">Competition</option>
+        </select>
+      </span>
+    </div>
+
+    <div id="coachList"></div>
+  </div>
+</div>
+
+
+<!-- ======== RANKINGS ======== -->
+<div class="page" id="rankings">
+  <div class="inner">
+    <div class="page-title">Rankings</div>
+    <div class="page-sub">Current player standings by category.</div>
+
+    <div class="filters">
+      <span class="filter-pill">
+        Category &nbsp;
+        <select id="rCat" onchange="renderRankings()">
+          <option value="National">National</option>
+          <option value="Regional">Regional</option>
+          <option value="Junior">Junior</option>
+        </select>
+      </span>
+    </div>
+
+    <table class="rank-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Player</th>
+          <th>City</th>
+          <th>Points</th>
+          <th>Level</th>
+        </tr>
+      </thead>
+      <tbody id="rankBody"></tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ======== RESULTS ======== -->
+<div class="page" id="results">
+  <div class="inner">
+    <div class="page-title">Recent Results</div>
+    <div class="page-sub">Latest match results from recent tournaments.</div>
+    <div id="resultsList"></div>
+  </div>
+</div>
+
+
+<!-- ======== PROFILE ======== -->
+<div class="page" id="profile">
+  <div class="inner">
+    <div class="page-title">My Profile</div>
+    <div class="page-sub">Your public player profile.</div>
+
+    <div class="profile-hero-card">
+      <div class="profile-big-av" id="profileInitials">AD</div>
+      <div class="profile-text">
+        <h2 id="profileName">Alex Dupont</h2>
+        <p id="profileCity">Paris, France</p>
+        <p>Level: <span id="profileLevel">Intermediate</span></p>
+        <p>alex.dupont@email.com</p>
+      </div>
+      <div style="margin-left: auto;">
+        <button class="btn-lime" onclick="openModal('editModal')">Edit Profile</button>
+      </div>
+    </div>
+
+    <div class="profile-stats-row">
+      <div class="stat-box"><div class="stat-val">4</div><div class="stat-label">Tournaments played</div></div>
+      <div class="stat-box"><div class="stat-val">7</div><div class="stat-label">Connections</div></div>
+      <div class="stat-box"><div class="stat-val">62%</div><div class="stat-label">Win rate</div></div>
+      <div class="stat-box"><div class="stat-val">3.5</div><div class="stat-label">NTRP Rating</div></div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ======== MODALS ======== -->
+
+<!-- connect modal -->
+<div class="overlay" id="connectModal">
+  <div class="modal-box">
+    <h3 id="connectTitle">Send Request</h3>
+    <p class="modal-sub" id="connectSub">Send a message to connect.</p>
+    <label>Your message</label>
+    <textarea id="connectMsg" placeholder="Hi! I would love to arrange a session with you."></textarea>
+    <label>Your level</label>
+    <select id="connectLevel">
+      <option>Beginner</option>
+      <option selected>Intermediate</option>
+      <option>Advanced</option>
+    </select>
+    <div class="modal-btns">
+      <button class="btn-lime" onclick="doConnect()">Send Request</button>
+      <button class="btn-cancel" onclick="closeModal('connectModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- register modal -->
+<div class="overlay" id="registerModal">
+  <div class="modal-box">
+    <h3 id="registerTitle">Register</h3>
+    <p class="modal-sub">Fill in your details to sign up.</p>
+    <label>Full Name</label>
+    <input type="text" id="regName" placeholder="Your full name"/>
+    <label>Level</label>
+    <select id="regLevel">
+      <option>Beginner</option>
+      <option>Intermediate</option>
+      <option>Advanced</option>
+      <option>Open</option>
+    </select>
+    <label>Phone (optional)</label>
+    <input type="text" id="regPhone" placeholder="+33 6 ..."/>
+    <div class="modal-btns">
+      <button class="btn-lime" onclick="doRegister()">Register Now</button>
+      <button class="btn-cancel" onclick="closeModal('registerModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- edit profile modal -->
+<div class="overlay" id="editModal">
+  <div class="modal-box">
+    <h3>Edit Profile</h3>
+    <p class="modal-sub">Update your public information.</p>
+    <label>Name</label>
+    <input type="text" id="eName" value="Alex Dupont"/>
+    <label>City</label>
+    <input type="text" id="eCity" value="Paris, France"/>
+    <label>Level</label>
+    <select id="eLevel">
+      <option>Beginner</option>
+      <option selected>Intermediate</option>
+      <option>Advanced</option>
+    </select>
+    <div class="modal-btns">
+      <button class="btn-lime" onclick="doSaveProfile()">Save Changes</button>
+      <button class="btn-cancel" onclick="closeModal('editModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+
+<!-- ======== JAVASCRIPT ======== -->
+<script>
+
+// --- DATA ---
+// i put all the data here as arrays of objects
+
+var tournaments = [
+  { name: "Paris Open Amateur",    date: "Apr 12-15, 2026", city: "Paris, FR",      level: "Intermediate", surface: "Clay",  spots: 8  },
+  { name: "Lyon Beginner Cup",     date: "Apr 20-22, 2026", city: "Lyon, FR",        level: "Beginner",     surface: "Hard",  spots: 12 },
+  { name: "Marseille Masters",     date: "May 3-6, 2026",   city: "Marseille, FR",   level: "Advanced",     surface: "Clay",  spots: 4  },
+  { name: "Bordeaux Open",         date: "May 10-14, 2026", city: "Bordeaux, FR",    level: "Open",         surface: "Hard",  spots: 16 },
+  { name: "Nice Grass Classic",    date: "Jun 1-4, 2026",   city: "Nice, FR",        level: "Intermediate", surface: "Grass", spots: 8  },
+  { name: "Toulouse Summer Cup",   date: "Jun 15-18, 2026", city: "Toulouse, FR",    level: "Beginner",     surface: "Clay",  spots: 10 },
+  { name: "Strasbourg Indoor Cup", date: "Jul 4-6, 2026",   city: "Strasbourg, FR",  level: "Open",         surface: "Hard",  spots: 6  }
+];
+
+var players = [
+  { name: "Marc Bernard",   city: "Paris",     level: "Intermediate", age: 27, hand: "Right-handed", note: "Available weekends",          init: "MB" },
+  { name: "Sophie Laurent", city: "Lyon",      level: "Beginner",     age: 22, hand: "Left-handed",  note: "Looking for morning sessions", init: "SL" },
+  { name: "Julien Moreau",  city: "Paris",     level: "Advanced",     age: 31, hand: "Right-handed", note: "Plays 3x a week",             init: "JM" },
+  { name: "Emma Petit",     city: "Marseille", level: "Intermediate", age: 25, hand: "Right-handed", note: "Can play weekdays",            init: "EP" },
+  { name: "Thomas Roux",    city: "Bordeaux",  level: "Beginner",     age: 19, hand: "Right-handed", note: "Started 6 months ago",         init: "TR" },
+  { name: "Clara Simon",    city: "Paris",     level: "Advanced",     age: 29, hand: "Left-handed",  note: "Former tournament player",     init: "CS" },
+  { name: "Lucas Martin",   city: "Nice",      level: "Intermediate", age: 34, hand: "Right-handed", note: "Likes long baseline rallies",  init: "LM" },
+  { name: "Amelie Dubois",  city: "Toulouse",  level: "Beginner",     age: 21, hand: "Right-handed", note: "Looking for a coach too",       init: "AD" }
+];
+
+var coaches = [
+  { name: "Pierre Lefort",   city: "Paris",     specialty: "Beginners",   price: "35 EUR/hr", exp: "8 years",  certified: true,  slots: 5,  init: "PL" },
+  { name: "Marie Fontaine",  city: "Lyon",      specialty: "Kids",        price: "30 EUR/hr", exp: "5 years",  certified: true,  slots: 8,  init: "MF" },
+  { name: "Jean-Luc Bertin", city: "Marseille", specialty: "Competition", price: "55 EUR/hr", exp: "15 years", certified: true,  slots: 2,  init: "JB" },
+  { name: "Sandra Vidal",    city: "Paris",     specialty: "Adults",      price: "40 EUR/hr", exp: "10 years", certified: true,  slots: 4,  init: "SV" },
+  { name: "Remi Leclercq",   city: "Bordeaux",  specialty: "Beginners",   price: "28 EUR/hr", exp: "3 years",  certified: false, slots: 10, init: "RL" },
+  { name: "Nathalie Caron",  city: "Nice",      specialty: "Competition", price: "60 EUR/hr", exp: "20 years", certified: true,  slots: 1,  init: "NC" }
+];
+
+var rankings = {
+  National: [
+    { name: "Antoine Girard",  city: "Paris",     points: 2840, level: "Advanced"     },
+    { name: "Lisa Mercier",    city: "Lyon",      points: 2610, level: "Advanced"     },
+    { name: "Hugo Blanc",      city: "Marseille", points: 2450, level: "Advanced"     },
+    { name: "Camille Dumas",   city: "Nice",      points: 2200, level: "Advanced"     },
+    { name: "Romain Perrin",   city: "Bordeaux",  points: 1980, level: "Advanced"     },
+    { name: "Julie Faure",     city: "Toulouse",  points: 1750, level: "Intermediate" },
+    { name: "Nicolas Garnier", city: "Paris",     points: 1600, level: "Intermediate" },
+    { name: "Pauline Renard",  city: "Nantes",    points: 1420, level: "Intermediate" }
+  ],
+  Regional: [
+    { name: "Marc Bernard",   city: "Paris",     points: 980, level: "Intermediate" },
+    { name: "Emma Petit",     city: "Marseille", points: 870, level: "Intermediate" },
+    { name: "Lucas Martin",   city: "Nice",      points: 740, level: "Intermediate" },
+    { name: "Sophie Laurent", city: "Lyon",      points: 520, level: "Beginner"     },
+    { name: "Thomas Roux",    city: "Bordeaux",  points: 310, level: "Beginner"     }
+  ],
+  Junior: [
+    { name: "Lea Bonnet",     city: "Paris",     points: 1100, level: "Advanced"     },
+    { name: "Theo Collin",    city: "Lyon",      points: 950,  level: "Advanced"     },
+    { name: "Manon Prevost",  city: "Toulouse",  points: 780,  level: "Intermediate" },
+    { name: "Ethan Rousseau", city: "Marseille", points: 620,  level: "Intermediate" },
+    { name: "Celia Morin",    city: "Nantes",    points: 490,  level: "Beginner"     }
+  ]
+};
+
+var results = [
+  {
+    name: "Paris Open Amateur", date: "April 2026", surface: "Clay",
+    matches: [
+      { round: "FINAL",      p1: "Antoine Girard", p2: "Marc Bernard",    score: "6-3, 6-4",      w: 1 },
+      { round: "SEMI-FINAL", p1: "Antoine Girard", p2: "Hugo Blanc",      score: "7-5, 6-2",      w: 1 },
+      { round: "SEMI-FINAL", p1: "Marc Bernard",   p2: "Nicolas Garnier", score: "6-4, 3-6, 7-5", w: 1 }
+    ]
+  },
+  {
+    name: "Lyon Beginner Cup", date: "March 2026", surface: "Hard",
+    matches: [
+      { round: "FINAL",      p1: "Sophie Laurent", p2: "Thomas Roux",   score: "6-2, 6-1", w: 1 },
+      { round: "SEMI-FINAL", p1: "Sophie Laurent", p2: "Amelie Dubois", score: "6-3, 6-4", w: 1 },
+      { round: "SEMI-FINAL", p1: "Thomas Roux",    p2: "Other Player",  score: "6-4, 6-2", w: 1 }
+    ]
+  }
+];
+
+
+// --- HELPER FUNCTIONS ---
+
+function levelTag(l) {
+  if (l === "Advanced")     return "tag-dark";
+  if (l === "Intermediate") return "tag-gray";
+  if (l === "Open")         return "tag-lime";
+  return "tag-green";
+}
+
+function surfaceTag(s) {
+  if (s === "Clay")  return "tag-orange";
+  if (s === "Grass") return "tag-green";
+  return "tag-blue";
+}
+
+
+// --- RENDER FUNCTIONS ---
+
+function renderHomeSeeds() {
+  var container = document.getElementById("homeSeeds");
+  container.innerHTML = "";
+  var top4 = rankings.National.slice(0, 4);
+
+  for (var i = 0; i < top4.length; i++) {
+    var r = top4[i];
+    var words = r.name.split(" ");
+    var init = (words[0][0] + words[1][0]).toUpperCase();
+
+    var card = document.createElement("div");
+    card.className = "item-card";
+    card.innerHTML =
+      '<div class="avatar">' + init + '</div>' +
+      '<div class="item-body" style="padding-left:6px;">' +
+        '<h3>' + r.name + '</h3>' +
+        '<div class="item-meta">Rank #' + (i+1) + ' &bull; ' + r.city + '</div>' +
+        '<div class="tag-row">' +
+          '<span class="tag ' + levelTag(r.level) + '">' + r.level + '</span>' +
+          '<span class="tag tag-gray">' + r.points + ' pts</span>' +
+        '</div>' +
+      '</div>';
+    container.appendChild(card);
+  }
+}
+
+function renderTournaments() {
+  var lf = document.getElementById("tLevel").value;
+  var sf = document.getElementById("tSurface").value;
+  var list = document.getElementById("tournamentList");
+  list.innerHTML = "";
+
+  var filtered = [];
+  for (var i = 0; i < tournaments.length; i++) {
+    var t = tournaments[i];
+    if (lf && t.level !== lf) continue;
+    if (sf && t.surface !== sf) continue;
+    filtered.push(t);
+  }
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty">No tournaments match your filters.</div>';
+    return;
+  }
+
+  for (var j = 0; j < filtered.length; j++) {
+    var t = filtered[j];
+    var safeName = t.name.replace(/'/g, "");
+    var card = document.createElement("div");
+    card.className = "item-card";
+    card.innerHTML =
+      '<div class="item-body">' +
+        '<h3>' + t.name + '</h3>' +
+        '<div class="item-meta">Date: ' + t.date + '</div>' +
+        '<div class="item-meta">Location: ' + t.city + ' &bull; ' + t.spots + ' spots left</div>' +
+        '<div class="tag-row">' +
+          '<span class="tag ' + levelTag(t.level) + '">' + t.level + '</span>' +
+          '<span class="tag ' + surfaceTag(t.surface) + '">' + t.surface + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="item-actions">' +
+        '<button class="btn-dark" onclick="openRegister(\'' + safeName + '\')">Register</button>' +
+      '</div>';
+    list.appendChild(card);
+  }
+}
+
+function renderPlayers() {
+  var lf = document.getElementById("pLevel").value;
+  var cf = document.getElementById("pCity").value.toLowerCase().trim();
+  var list = document.getElementById("playerList");
+  list.innerHTML = "";
+
+  var filtered = [];
+  for (var i = 0; i < players.length; i++) {
+    var p = players[i];
+    if (lf && p.level !== lf) continue;
+    if (cf && p.city.toLowerCase().indexOf(cf) === -1) continue;
+    filtered.push(p);
+  }
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty">No players found with these filters.</div>';
+    return;
+  }
+
+  for (var j = 0; j < filtered.length; j++) {
+    var p = filtered[j];
+    var safeName = p.name.replace(/'/g, "");
+    var card = document.createElement("div");
+    card.className = "item-card";
+    card.innerHTML =
+      '<div class="avatar">' + p.init + '</div>' +
+      '<div class="item-body" style="padding-left:6px;">' +
+        '<h3>' + p.name + '</h3>' +
+        '<div class="item-meta">' + p.city + ' &bull; Age ' + p.age + ' &bull; ' + p.hand + '</div>' +
+        '<div class="item-note">' + p.note + '</div>' +
+        '<div class="tag-row"><span class="tag ' + levelTag(p.level) + '">' + p.level + '</span></div>' +
+      '</div>' +
+      '<div class="item-actions">' +
+        '<button class="btn-green" onclick="openConnect(\'' + safeName + '\', \'player\')">Connect</button>' +
+      '</div>';
+    list.appendChild(card);
+  }
+}
+
+function renderCoaches() {
+  var sf = document.getElementById("cSpec").value;
+  var list = document.getElementById("coachList");
+  list.innerHTML = "";
+
+  var filtered = [];
+  for (var i = 0; i < coaches.length; i++) {
+    var c = coaches[i];
+    if (sf && c.specialty !== sf) continue;
+    filtered.push(c);
+  }
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty">No coaches found.</div>';
+    return;
+  }
+
+  for (var j = 0; j < filtered.length; j++) {
+    var c = filtered[j];
+    var safeName = "Coach " + c.name.replace(/'/g, "");
+    var certBadge = c.certified
+      ? '<span class="tag tag-lime">USPTA Certified</span>'
+      : '<span class="tag tag-gray">Not certified</span>';
+    var card = document.createElement("div");
+    card.className = "item-card";
+    card.innerHTML =
+      '<div class="avatar">' + c.init + '</div>' +
+      '<div class="item-body" style="padding-left:6px;">' +
+        '<h3>Coach ' + c.name + '</h3>' +
+        '<div class="item-meta">' + c.city + ' &bull; ' + c.price + ' &bull; ' + c.exp + ' exp</div>' +
+        '<div class="item-meta">' + c.slots + ' slots available</div>' +
+        '<div class="tag-row">' +
+          '<span class="tag tag-blue">' + c.specialty + '</span>' +
+          certBadge +
+        '</div>' +
+      '</div>' +
+      '<div class="item-actions">' +
+        '<button class="btn-dark" onclick="openConnect(\'' + safeName + '\', \'coach\')">Book</button>' +
+      '</div>';
+    list.appendChild(card);
+  }
+}
+
+function renderRankings() {
+  var cat = document.getElementById("rCat").value;
+  var tbody = document.getElementById("rankBody");
+  tbody.innerHTML = "";
+  var data = rankings[cat] || [];
+
+  for (var i = 0; i < data.length; i++) {
+    var r = data[i];
+    var numCls = i < 3 ? "rank-num rank-top-3" : "rank-num";
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      '<td><span class="' + numCls + '">' + (i + 1) + '</span></td>' +
+      '<td><span class="rank-name">' + r.name + '</span></td>' +
+      '<td>' + r.city + '</td>' +
+      '<td><strong>' + r.points + '</strong></td>' +
+      '<td><span class="tag ' + levelTag(r.level) + '">' + r.level + '</span></td>';
+    tbody.appendChild(tr);
+  }
+}
+
+function renderResults() {
+  var list = document.getElementById("resultsList");
+  list.innerHTML = "";
+
+  for (var i = 0; i < results.length; i++) {
+    var t = results[i];
+    var block = document.createElement("div");
+    block.className = "results-block";
+    block.innerHTML =
+      '<h2>' + t.name + ' &mdash; ' + t.date +
+      ' <span class="tag ' + surfaceTag(t.surface) + '" style="font-size:10px;">' + t.surface + '</span></h2>';
+
+    for (var j = 0; j < t.matches.length; j++) {
+      var m = t.matches[j];
+      var p1cls = m.w === 1 ? "match-player won" : "match-player";
+      var p2cls = m.w === 2 ? "match-player won" : "match-player";
+      var p1win = m.w === 1 ? '<span class="win-label">WIN</span>' : '';
+      var p2win = m.w === 2 ? '<span class="win-label">WIN</span>' : '';
+
+      var mc = document.createElement("div");
+      mc.className = "match-card";
+      mc.innerHTML =
+        '<div class="match-round-label">' + m.round + '</div>' +
+        '<div class="match-row">' +
+          '<span class="' + p1cls + '">' + m.p1 + p1win + '</span>' +
+          '<span class="match-score">' + m.score + '</span>' +
+        '</div>' +
+        '<div class="match-row">' +
+          '<span class="' + p2cls + '">' + m.p2 + p2win + '</span>' +
+        '</div>';
+      block.appendChild(mc);
+    }
+    list.appendChild(block);
+  }
+}
+
+
+// --- NAVIGATION ---
+
+function showPage(id) {
+  // hide all pages
+  var pages = document.querySelectorAll(".page");
+  for (var i = 0; i < pages.length; i++) {
+    pages[i].classList.remove("active");
+  }
+  document.getElementById(id).classList.add("active");
+
+  // update nav buttons
+  var btns = document.querySelectorAll(".nav-links button:not(.cta-btn)");
+  var pageIds = ["home", "tournaments", "players", "coaches", "rankings", "results", "profile"];
+  for (var j = 0; j < btns.length; j++) {
+    btns[j].classList.toggle("active", pageIds[j] === id);
+  }
+
+  // render the page
+  if (id === "tournaments") renderTournaments();
+  if (id === "players")     renderPlayers();
+  if (id === "coaches")     renderCoaches();
+  if (id === "rankings")    renderRankings();
+  if (id === "results")     renderResults();
+
+  window.scrollTo(0, 0);
+}
+
+
+// --- MODAL FUNCTIONS ---
+
+function openConnect(name, type) {
+  var title = type === "coach" ? "Book a session" : "Connect with " + name;
+  var sub   = type === "coach"
+    ? "Send a booking request to " + name + "."
+    : "Send a connection request to " + name + ".";
+  document.getElementById("connectTitle").textContent = title;
+  document.getElementById("connectSub").textContent   = sub;
+  openModal("connectModal");
+}
+
+function doConnect() {
+  document.getElementById("connectMsg").value = "";
+  closeModal("connectModal");
+  showToast("Request sent!");
+}
+
+function openRegister(name) {
+  document.getElementById("registerTitle").textContent = "Register: " + name;
+  openModal("registerModal");
+}
+
+function doRegister() {
+  var name = document.getElementById("regName").value.trim();
+  if (!name) {
+    alert("Please enter your name first.");
+    return;
+  }
+  document.getElementById("regName").value  = "";
+  document.getElementById("regPhone").value = "";
+  closeModal("registerModal");
+  showToast("You are registered!");
+}
+
+function doSaveProfile() {
+  var n = document.getElementById("eName").value.trim();
+  var c = document.getElementById("eCity").value.trim();
+  var l = document.getElementById("eLevel").value;
+
+  if (n) {
+    document.getElementById("profileName").textContent = n;
+    // update initials in avatar
+    var words = n.split(" ");
+    var init = words.length >= 2
+      ? (words[0][0] + words[1][0]).toUpperCase()
+      : n.slice(0, 2).toUpperCase();
+    document.getElementById("profileInitials").textContent = init;
+  }
+  if (c) document.getElementById("profileCity").textContent = c;
+  document.getElementById("profileLevel").textContent = l;
+
+  closeModal("editModal");
+  showToast("Profile saved!");
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.add("show");
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove("show");
+}
+
+// close modal when clicking outside
+document.querySelectorAll(".overlay").forEach(function(el) {
+  el.addEventListener("click", function(e) {
+    if (e.target === el) el.classList.remove("show");
+  });
+});
+
+function showToast(msg) {
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.display = "block";
+  setTimeout(function() {
+    t.style.display = "none";
+  }, 2200);
+}
+
+
+// --- INIT ---
+// run this on page load
+renderHomeSeeds();
+
+</script>
+</body>
+</html>
